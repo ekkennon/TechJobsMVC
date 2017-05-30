@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -32,7 +33,7 @@ namespace TechJobs.Models
             {
                 string aValue = job[column];
 
-                if (!values.Contains(aValue))
+                if (values.FindIndex(x => x.Equals(aValue, StringComparison.OrdinalIgnoreCase)) == -1)
                 {
                     values.Add(aValue);
                 }
@@ -82,6 +83,10 @@ namespace TechJobs.Models
          */
         public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
         {
+            if (column.Equals("all"))
+            {
+                return FindByValue(value);
+            }
             // load data, if not already loaded
             LoadData();
 
